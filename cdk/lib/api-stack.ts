@@ -8,7 +8,7 @@ import * as apigw from "aws-cdk-lib/aws-apigateway";
 import * as constructs from "constructs";
 
 export class ApiStack extends cdk.Stack {
-  public apiUrl = '';
+  public api: apigw.LambdaRestApi;
 
   constructor(scope: constructs.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
@@ -22,7 +22,7 @@ export class ApiStack extends cdk.Stack {
       handler: "index.handler"
     });
 
-    const api = new apigw.LambdaRestApi(this, "apiEndpoint", {
+    this.api = new apigw.LambdaRestApi(this, "apiEndpoint", {
       handler: apiFunction,
       defaultCorsPreflightOptions: {
         allowOrigins: apigw.Cors.ALL_ORIGINS,
@@ -30,8 +30,6 @@ export class ApiStack extends cdk.Stack {
       }
     });
 
-    this.apiUrl = api.url;
-
-    new cdk.CfnOutput(this, "apiurl", { value: api.url });
+    new cdk.CfnOutput(this, "apiurl", { value: this.api.url });
   }
 }

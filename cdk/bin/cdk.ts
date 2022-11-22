@@ -18,7 +18,7 @@ export class AllStage extends cdk.Stage {
     const apiStack = new ApiStack(this, "ApiStack", {
       env: demoEnv
     });
-    new SsrStack(this, "SsrStack", apiStack.apiUrl, {
+    new SsrStack(this, "SsrStack", apiStack.api.url, {
       env: demoEnv
     });    
   }
