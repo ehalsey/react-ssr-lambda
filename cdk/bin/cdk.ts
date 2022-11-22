@@ -17,9 +17,6 @@ export class AllStage extends cdk.Stage {
     new AllStack(this, "AllStack", {
       env: demoEnv
     });
-    new SsrStack(this, "SsrStack", {
-      env: demoEnv
-    });    
   }
 }
 
