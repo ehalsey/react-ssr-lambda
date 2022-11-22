@@ -4,7 +4,7 @@
 
 import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
-import { ApiStack } from "../lib/api-stack";
+import { SsrAllStack } from "../lib/ssr-all-stack";
 import { SsrStack } from "../lib/srr-stack";
 import { Construct } from 'constructs';
 import { CodeBuildStep, CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines';
@@ -12,28 +12,12 @@ import { CodeBuildStep, CodePipeline, CodePipelineSource, ShellStep } from 'aws-
 const demoEnv = { region: "us-east-1" };
 const app = new cdk.App();
 
-export class APIStage extends cdk.Stage {
-  private apiStack: ApiStack;
+export class AllStage extends cdk.Stage {
   constructor(scope: Construct, id: string, props?: cdk.StageProps) {
     super(scope, id, props);
-    this.apiStack = new ApiStack(this, "ApiStack", {
+    new SsrAllStack(this, "ApiStack", {
       env: demoEnv
     });
-  }
-  public getApiUrl(): string {
-    return this.apiStack.apiUrl;
-  } 
-
-}
-
-export class SsrStage extends cdk.Stage {
-  constructor(scope: Construct, id: string, apiUrl:string, props?: cdk.StageProps) {
-    super(scope, id, props);
-    new SsrStack(this, "SsrStack", apiUrl,
-    {
-      env: demoEnv
-    });
-
   }
 }
 
@@ -58,10 +42,8 @@ export class MyPipelineStack extends cdk.Stack {
 
     });
 
-    const apiStage = new APIStage(this, 'APIStage');
-    pipeline.addStage(apiStage);
-    pipeline.addStage(new SsrStage(this, 'SSR', apiStage.getApiUrl(), props));
-
+    const allStage = new AllStage(this, 'AllStage');
+    pipeline.addStage(allStage);
   }
 }
 
