@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT-0
 
 import * as cdk from "aws-cdk-lib";
-import { CfnParameter, Duration } from "aws-cdk-lib";
+import { CfnParameter, Duration, Fn } from "aws-cdk-lib";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
@@ -11,8 +11,10 @@ import * as apigw from "aws-cdk-lib/aws-apigateway";
 import * as constructs from "constructs";
 
 export class SsrStack extends cdk.Stack {
-  constructor(scope: constructs.Construct, id: string, apiUrl: string, props?: cdk.StackProps) {
+  constructor(scope: constructs.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
+
+    const apiUrl = Fn.importValue("apiurl");
 
     const appConfig = {
       apiUrl: apiUrl,

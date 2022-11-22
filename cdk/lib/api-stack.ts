@@ -30,6 +30,6 @@ export class ApiStack extends cdk.Stack {
       }
     });
 
-    new cdk.CfnOutput(this, "apiurl", { value: this.api.url });
+    new cdk.CfnOutput(this, "apiurl", { value: this.api.url, exportName: "apiurl" });
   }
 }
