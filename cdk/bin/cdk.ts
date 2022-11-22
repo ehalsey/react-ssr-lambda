@@ -4,8 +4,7 @@
 
 import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
-import { SsrAllStack } from "../lib/ssr-all-stack";
-import { SsrStack } from "../lib/srr-stack";
+import { AllStack } from "../lib/all-stack";
 import { Construct } from 'constructs';
 import { CodeBuildStep, CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines';
 
@@ -15,7 +14,7 @@ const app = new cdk.App();
 export class AllStage extends cdk.Stage {
   constructor(scope: Construct, id: string, props?: cdk.StageProps) {
     super(scope, id, props);
-    new SsrAllStack(this, "ApiStack", {
+    new AllStack(this, "AllStack", {
       env: demoEnv
     });
   }
@@ -36,7 +35,7 @@ export class MyPipelineStack extends cdk.Stack {
               "arn:aws:codestar-connections:us-west-1:263870947518:connection/7d190900-3cfe-4f09-b4ad-60b1ad7a1c0d"
           }
         ),
-        commands: ["yarn install", "cd simple-ssr", "yarn run build-all", "cd ./../cdk", "yarn run build", "yarn cdk synth"],
+        commands: ["yarn install", "cd simple-ssr", "yarn run build-all", "cd ./../cdk", "yarn cdk synth"],
         primaryOutputDirectory: "./cdk/cdk.out",
       })
 
