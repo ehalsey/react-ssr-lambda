@@ -4,7 +4,6 @@
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import SSRApp from "../SSRApp";
-import config from "../config.json";
 import axios from "axios";
 
 const indexFile = `
@@ -32,7 +31,10 @@ const handler = async function (event) {
   try {
     const request = event.Records[0].cf.request;
     if (request.uri === "/edgessr") {
-      const url = config.SSRApiStack.apiurl;
+      let configFile = "../config.json";
+      const config = require(configFile)
+
+      const url = config.apiurl;
       const result = await axios.get(url);
       const app = ReactDOMServer.renderToString(<SSRApp data={result.data} />);
       const html = indexFile.replace(

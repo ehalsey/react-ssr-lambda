@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from "react";
 import ProductList from "./components/ProductList";
-import config from "./config.json";
+
 import axios from "axios";
 
 const App = ({ isSSR, ssrData }) => {
@@ -11,6 +11,8 @@ const App = ({ isSSR, ssrData }) => {
   const [result, setResult] = useState({ loading: true, products: null });
   useEffect(() => {
     const getData = async () => {
+      let configFile = "./config.json";
+      const config = require(configFile)
       const url = config.apiurl;
       try {
         let result = await axios.get(url);
