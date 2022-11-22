@@ -4,7 +4,7 @@
 
 import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
-import { SsrAllStack } from "../lib/ssr-all-stack";
+import { ApiStack } from "../lib/api-stack";
 import { SsrStack } from "../lib/srr-stack";
 import { Construct } from 'constructs';
 import { CodeBuildStep, CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines';
@@ -15,9 +15,12 @@ const app = new cdk.App();
 export class AllStage extends cdk.Stage {
   constructor(scope: Construct, id: string, props?: cdk.StageProps) {
     super(scope, id, props);
-    new SsrAllStack(this, "ApiStack", {
+    const apiStack = new ApiStack(this, "ApiStack", {
       env: demoEnv
     });
+    new SsrStack(this, "SsrStack", apiStack.apiUrl, {
+      env: demoEnv
+    });    
   }
 }
 
