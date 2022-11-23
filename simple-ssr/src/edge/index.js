@@ -5,6 +5,7 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import SSRApp from "../SSRApp";
 import axios from "axios";
+import { config as getConfig } from "./../lib/get-config";
 
 const indexFile = `
 <!DOCTYPE html>
@@ -31,11 +32,10 @@ const handler = async function (event) {
   try {
     const request = event.Records[0].cf.request;
     if (request.uri === "/edgessr") {
-      let configFile = "../config.json";
-      const config = require(configFile)
+      // const config = await getConfig();
 
-      const url = config.apiurl;
-      const result = await axios.get(url);
+      // const url = config.apiurl;
+      const result = await axios.get('');
       const app = ReactDOMServer.renderToString(<SSRApp data={result.data} />);
       const html = indexFile.replace(
         '<div id="root"></div>',
