@@ -5,7 +5,7 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import SSRApp from "../SSRApp";
 import axios from "axios";
-import { config as getConfig } from "./../lib/get-config";
+import getConfig from "./../lib/get-config";
 
 const indexFile = `
 <!DOCTYPE html>
@@ -30,9 +30,8 @@ const indexFile = `
 const handler = async function (event) {
   try {
     console.log("here");
-    //const config = await getConfig();
-    //const url = config.apiurl;
-    const result = await axios.get('');
+    const config = await getConfig();
+    const result = await axios.get(config.apiUrl);
     const app = ReactDOMServer.renderToString(<SSRApp data={result.data} />);
     const html = indexFile.replace(
       '<div id="root"></div>',
