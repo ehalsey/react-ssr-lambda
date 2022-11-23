@@ -34,6 +34,7 @@ const handler = async function (event) {
     if (request.uri === "/edgessr") {
       const config = await getConfig();
       const result = await axios.get(config.apiUrl);
+
       const app = ReactDOMServer.renderToString(<SSRApp data={result.data} />);
       const html = indexFile.replace(
         '<div id="root"></div>',
