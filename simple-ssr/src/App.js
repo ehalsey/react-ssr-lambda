@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from "react";
 import ProductList from "./components/ProductList";
 import axios from "axios";
-import { config as getConfig } from "./lib/get-config";
+import {getConfig} from "./lib/get-config";
 
 const App = ({ isSSR, ssrData }) => {
   const [err, setErr] = useState(false);
@@ -16,9 +16,7 @@ const App = ({ isSSR, ssrData }) => {
     console.log("here");
     const getData = async () => {
       try {
-        var configFile = "./config.json";
-        const config = await (await axios.get(configFile)).data;
-        console.log(config);
+        const config = await getConfig();
         let result = await axios.get(config.apiUrl);
         setResult({ loading: false, products: result.data });
       } catch (error) {
@@ -39,5 +37,7 @@ const App = ({ isSSR, ssrData }) => {
 };
 
 export default App;
+
+
 
 
