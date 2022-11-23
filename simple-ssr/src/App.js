@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from "react";
 import ProductList from "./components/ProductList";
 import axios from "axios";
-import {getConfig} from "./lib/get-config";
+import getConfig from "./lib/get-config";
 
 const App = ({ isSSR, ssrData }) => {
   const [err, setErr] = useState(false);
